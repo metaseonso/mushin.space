@@ -2,6 +2,7 @@
 const HERE = new URL('.', document.currentScript.src).href;  // the folder of this script and its assets
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const ms=d=>parseFloat(d)*(d.trim().endsWith('ms')?1:1000)||0;  // a CSS duration in ms
 
 /* ---------- zones ---------- */
 const ZONES=[
@@ -15,13 +16,13 @@ function paintZone(i){
   const z=ZONES[i];
   zoneCopy.classList.add('swap');
   clearTimeout(paintZone._t);
-  paintZone._t=setTimeout(()=>{
+  paintZone._t=setTimeout(()=>{  // swap the words once the fade-out (--dur-quick) is over
     zoneCopy.innerHTML=`<span class="count">${z.by}</span><h3>${z.n}</h3><p>${z.t}</p>`;
     rings.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.zone===String(i)));
     rings.querySelectorAll('.ringline').forEach(c=>c.classList.toggle('on', c.dataset.zone===String(i)));
     document.querySelectorAll('#proxemicFlank img').forEach(c=>c.classList.toggle('on', c.dataset.zone===String(i)));
     zoneCopy.classList.remove('swap');
-  },160);
+  },RM?0:ms(getComputedStyle(zoneCopy).transitionDuration));
 }
 if(rings){
   rings.querySelectorAll('button').forEach(b=>{
@@ -57,20 +58,15 @@ const prog=document.querySelector('.progress path');
 if(prog){ prog.setAttribute('d',spiralPath(24,24,2.6,20,320)); const L=prog.getTotalLength(); prog.style.setProperty('--len',L); }
 
 /* ---------- reveals ---------- */
+/* one watcher for everything that arrives on scroll: sections (.rev), lines and plates (.fade), seals */
 let ioFired=false;
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting) return;
   ioFired=true;
   e.target.classList.add('in');
   io.unobserve(e.target);
-}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
-document.querySelectorAll('.rev').forEach(s=>io.observe(s));
-const ioFade=new IntersectionObserver(es=>es.forEach(e=>{
-  if(!e.isIntersecting) return;
-  e.target.classList.add('in');
-  ioFade.unobserve(e.target);
-}),{threshold:.14,rootMargin:'0px 0px -10% 0px'});
-document.querySelectorAll('.fade,.seal').forEach(el=>ioFade.observe(el));
+}),{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.rev,.fade,.seal').forEach(el=>io.observe(el));
 function revealAll(){
   document.querySelectorAll('.rev,.fade,.seal').forEach(s=>s.classList.add('in'));
   const e=document.querySelector('.enso img'); if(e) e.style.opacity='.92';
@@ -79,19 +75,22 @@ function revealAll(){
 setTimeout(()=>{ if(!ioFired) revealAll(); },3500);
 
 /* ---------- scroll-linked ---------- */
-let target=0,cur=0;
+/* the progress spiral eases toward the scroll position, and rests when it arrives */
+let target=0,cur=0,running=false;
 function frame(){
   cur+=(target-cur)*0.12;
-  const y=RM?target:cur;
+  if(RM||Math.abs(target-cur)<.5) cur=target;
   const doc=document.documentElement.scrollHeight-innerHeight;
-  const p=clamp(y/Math.max(doc,1));
-  if(prog) prog.style.setProperty('--p',p.toFixed(4));
-  requestAnimationFrame(frame);
+  if(prog) prog.style.setProperty('--p',clamp(cur/Math.max(doc,1)).toFixed(4));
+  running=cur!==target;
+  if(running) requestAnimationFrame(frame);
 }
-addEventListener('scroll',()=>{target=scrollY},{passive:true});
+const wake=()=>{ if(!running){ running=true; requestAnimationFrame(frame); } };
+addEventListener('scroll',()=>{target=scrollY;wake();},{passive:true});
+addEventListener('resize',wake,{passive:true});
 target=cur=scrollY;
 if(RM){ revealAll(); }
-requestAnimationFrame(frame);
+frame();
 
 /* ---------- ink petals ---------- */
 

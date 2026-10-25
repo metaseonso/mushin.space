@@ -9,6 +9,15 @@
 --dur-fast:140ms; /* @kind other */
 --dur-base:240ms; /* @kind other */
 --dur-slow:520ms; /* @kind other */
+/* Motion of the movement page: one curve, five durations, one stagger. Every transition uses these. */
+--ease-reveal:cubic-bezier(.19,1,.22,1); /* @kind other */ /* ink settling: fast start, long soft landing */
+--ease-seal:cubic-bezier(.34,1.56,.64,1); /* @kind other */ /* the seal's small press */
+--dur-quick:240ms; /* @kind other */ /* text swaps, colour */
+--dur-respond:600ms; /* @kind other */ /* answers to a tap or hover */
+--dur-reveal:1.1s; /* @kind other */ /* things arriving as you scroll */
+--dur-drift:2.2s; /* @kind other */ /* cranes and washes */
+--dur-breath:4.4s; /* @kind other */ /* slow loops that breathe */
+--stagger:.12s; /* @kind other */ /* between siblings arriving one after another */
 --blur-veil:blur(10px); /* @kind other */
 --grain:radial-gradient(rgba(33,31,32,.045) 1px,transparent 1px); /* @kind other */
 }
