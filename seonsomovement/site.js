@@ -1,4 +1,5 @@
 (() => {
+const HERE = new URL('.', document.currentScript.src).href;  // the folder of this script and its assets
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 
@@ -38,7 +39,7 @@ const OBJECTS=[
 ];
 const plates=document.getElementById('plates');
 if(plates) plates.innerHTML=OBJECTS.map((o,i)=>`<figure class="obj fade d${i+1}">
-<span class="objart"><img src="assets/ink-${o.f}.png" alt=""></span>
+<span class="objart"><img src="${HERE}assets/ink-${o.f}.png" alt=""></span>
 <figcaption><span class="objkr">${o.k}</span><h3>${o.n}</h3><span class="objs">${o.s}</span><p>${o.t}</p></figcaption>
 </figure>`).join('');
 

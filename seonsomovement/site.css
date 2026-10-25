@@ -180,3 +180,5 @@ footer .close{font-family:'Nanum Myeongjo',serif;font-size:19px;color:var(--sumi
   .enso img{opacity:.92;filter:none;transform:none;animation:none}
   canvas.petals{display:none}
 }
+
+.mushin{font-size:14px;line-height:1.7;max-width:62ch;margin:28px auto 0;text-align:center;color:var(--sumi-ink-soft)}
