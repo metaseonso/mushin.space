@@ -2,7 +2,6 @@
 const HERE = new URL('.', document.currentScript.src).href;  // the folder of this script and its assets
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
-const ms=d=>parseFloat(d)*(d.trim().endsWith('ms')?1:1000)||0;  // a CSS duration in ms
 
 /* ---------- zones ---------- */
 const ZONES=[
@@ -12,17 +11,12 @@ const ZONES=[
  {n:'Community',by:'the broader ecology · by association',t:'The wider ecology of the collective. Patrons and guests. Nothing is asked and nothing is owed, and most who follow the movement never come nearer than this.'}
 ];
 const rings=document.getElementById('rings'), zoneCopy=document.getElementById('zoneCopy');
-function paintZone(i){
+function paintZone(i){  // a tap moves only the circles; the words and the picture change in place
   const z=ZONES[i];
-  zoneCopy.classList.add('swap');
-  clearTimeout(paintZone._t);
-  paintZone._t=setTimeout(()=>{  // swap the words once the fade-out (--dur-quick) is over
-    zoneCopy.innerHTML=`<span class="count">${z.by}</span><h3>${z.n}</h3><p>${z.t}</p>`;
-    rings.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.zone===String(i)));
-    rings.querySelectorAll('.ringline').forEach(c=>c.classList.toggle('on', c.dataset.zone===String(i)));
-    document.querySelectorAll('#proxemicFlank img').forEach(c=>c.classList.toggle('on', c.dataset.zone===String(i)));
-    zoneCopy.classList.remove('swap');
-  },RM?0:ms(getComputedStyle(zoneCopy).transitionDuration));
+  zoneCopy.innerHTML=`<span class="count">${z.by}</span><h3>${z.n}</h3><p>${z.t}</p>`;
+  rings.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.zone===String(i)));
+  rings.querySelectorAll('.ringline').forEach(c=>c.classList.toggle('on', c.dataset.zone===String(i)));
+  document.querySelectorAll('#proxemicFlank img').forEach(c=>c.classList.toggle('on', c.dataset.zone===String(i)));
 }
 if(rings){
   rings.querySelectorAll('button').forEach(b=>{

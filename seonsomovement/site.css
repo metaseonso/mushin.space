@@ -78,12 +78,12 @@ section{position:relative;padding:clamp(90px,13vh,170px) 0}
 
 /* ---- turn III zones ---- */
 .zones{display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:center}
-.rings{position:relative;aspect-ratio:1;width:100%;max-width:476px;margin:0 auto}
+.rings{position:relative;aspect-ratio:1;width:100%;max-width:476px;margin:0 auto;-webkit-user-select:none;user-select:none}
 #t2{overflow:hidden}
 .zone-copy-wrap{position:relative}
 .proxemic-flank{position:relative;height:360px;margin-top:36px}
-.proxemic-flank img{position:absolute;top:50%;left:50%;max-height:100%;max-width:92%;object-fit:contain;opacity:0;filter:grayscale(1);transform:translate(-50%,-50%) scale(.9);transition:opacity var(--dur-reveal) var(--ease-reveal),transform var(--dur-reveal) var(--ease-reveal)}
-.proxemic-flank img.on{opacity:.45;transform:translate(-50%,-50%) scale(1)}
+.proxemic-flank img{position:absolute;top:50%;left:50%;max-height:100%;max-width:92%;object-fit:contain;opacity:0;filter:grayscale(1);transform:translate(-50%,-50%)}
+.proxemic-flank img.on{opacity:.45}
 @media(max-width:900px){.proxemic-flank{height:270px;margin-top:24px}}
 .ringline{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);object-fit:contain;pointer-events:none;z-index:1;opacity:.82;mix-blend-mode:multiply;transition:opacity var(--dur-respond) var(--ease-reveal),transform var(--dur-respond) var(--ease-reveal),filter var(--dur-respond) var(--ease-reveal);animation:ringbreathe var(--dur-breath) ease-in-out infinite;animation-delay:calc(var(--i,0) * var(--dur-breath) / 12)}
 .ringline[data-zone="2"]{--i:1}.ringline[data-zone="1"]{--i:2}.ringline[data-zone="0"]{--i:3}
@@ -91,12 +91,10 @@ section{position:relative;padding:clamp(90px,13vh,170px) 0}
 .rings.touched .ringline{animation:none;opacity:.32}
 .rings.touched .ringline.on{opacity:1}
 @keyframes ringbreathe{0%,100%{opacity:.62}50%{opacity:.9}}
-.rings button{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;background:transparent;cursor:pointer;border:0;z-index:2;transition:transform var(--dur-respond) var(--ease-reveal)}
-.rings button:hover{transform:translate(-50%,-50%) scale(1.012)}
-.rings button:focus-visible{outline:1px solid var(--sumi-seal);outline-offset:3px;border-radius:50%}
+.rings button{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;background:transparent;cursor:pointer;border:0;z-index:2;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.rings button:focus{outline:none}.rings button:focus-visible{outline:1px solid var(--sumi-seal);outline-offset:3px;border-radius:50%}  /* a tap shows nothing; the keyboard sees where it is */
 .rings span{position:absolute;left:50%;transform:translateX(-50%);font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--sumi-ink-soft);pointer-events:none}
-.zone-copy{min-height:210px;transition:opacity var(--dur-quick) var(--ease-reveal)}
-.zone-copy.swap{opacity:0}
+.zone-copy{min-height:210px}  /* a tap only moves the circles: the words change in place */
 .zone-copy .count{font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--sumi-seal);margin-bottom:10px;display:block}
 .zone-copy h3{margin-bottom:14px;font-size:34px}
 
