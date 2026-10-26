@@ -1,4 +1,5 @@
 :root{color-scheme:only light}  /* the ink-on-paper page never turns dark, even when the browser forces dark themes */
+html{-webkit-tap-highlight-color:transparent}  /* no blue box over a tapped ring or link on phones; keyboard focus keeps its outline */
 *,*::before,*::after{box-sizing:border-box}
 html{background:var(--sumi-paper);overflow-x:hidden}
 body{margin:0;background:var(--sumi-paper);color:var(--sumi-ink);font-family:'Gowun Dodum',system-ui,sans-serif;font-size:17px;line-height:1.85;-webkit-font-smoothing:antialiased;text-wrap:pretty;overflow-x:hidden}
